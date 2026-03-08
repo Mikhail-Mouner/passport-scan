@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'pixlab' => [
+        'key' => env('PIXLAB_API_KEY'),
+    ],
+
 ];

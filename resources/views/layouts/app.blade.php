@@ -45,7 +45,7 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Error processing image');
+                    // alert('Error processing image');
                 });
         }
     </script>

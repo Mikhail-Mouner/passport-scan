@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Passport\PixlabOcrStrategy;
+use App\Actions\Passport\ProgressPassport;
+use App\Actions\Passport\TesseractOcrStrategy;
 use Illuminate\Http\Request;
-use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class PassportController extends Controller
 {
-
     public function process(Request $request)
     {
         $imageName = $request->input('image');
 
-        // Add your processing logic here
-        // For now, just return the path
 
-        $path = storage_path('app/public/' . $imageName);
-        $text = (new TesseractOCR($path))
-            ->run();
+        $ocrStrategy = new PixlabOcrStrategy;
+        // $ocrStrategy = new TesseractOcrStrategy;
+        $progressPassport = new ProgressPassport($ocrStrategy);
+
+        $text = $progressPassport->processImage($imageName);
 
         return response()->json([
             'message' => 'Image processed successfully',
