@@ -16,13 +16,20 @@ class PixlabOcrStrategy implements OcrStrategy
 
     public function extractText($image)
     {
-        $imageUrl = url('storage/'.basename($image));
+        $imagePath = storage_path('app/public/'.$image);
 
-        if (! $this->pixlab->get('ocr', ['img' => $imageUrl])) {
-            throw new \Exception('Pixlab OCR failed: '.$this->pixlab->get_error_message());
+        if (! $image || ! file_exists($imagePath) || ! is_file($imagePath)) {
+            throw new \Exception("Image file not found or invalid: $imagePath");
         }
-        dd($this->pixlab->json);
 
-        return $this->pixlab->json;
+        if (! $this->pixlab->post('docscan', [  // Use POST for file upload
+            'img' => $imagePath,  // Passport input image (now a local file)
+            'type' => 'passport', // Type of document we are going to scan
+        ], $imagePath)) {  // Pass the file path for upload
+            echo $this->pixlab->get_error_message()."\n";
+            exit;
+        }
+
+        return $this->pixlab->get_decoded_json();
     }
 }

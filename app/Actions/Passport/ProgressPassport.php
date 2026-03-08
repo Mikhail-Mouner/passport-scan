@@ -11,7 +11,7 @@ class ProgressPassport
         $this->ocrStrategy = $ocrStrategy;
     }
 
-    public function processImage($image): string
+    public function processImage($image)
     {
         return $this->ocrStrategy->extractText($image);
     }
