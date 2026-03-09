@@ -7,6 +7,7 @@ use App\Actions\Passport\ProgressPassport;
 use App\Actions\Passport\TesseractOcrStrategy;
 use App\Actions\Passport\MindeeOcrStrategy;
 use App\Actions\Passport\GoogleVisionOcrStrategy;
+use App\Actions\Passport\NewTesseractOcrStrategy;
 use Illuminate\Http\Request;
 
 class PassportController extends Controller
@@ -20,6 +21,8 @@ class PassportController extends Controller
 //         $ocrStrategy = new TesseractOcrStrategy;
          $ocrStrategy = new MindeeOcrStrategy;
 //         $ocrStrategy = new GoogleVisionOcrStrategy;
+        // $ocrStrategy = new PixlabOcrStrategy;
+        $ocrStrategy = new NewTesseractOcrStrategy;
         $progressPassport = new ProgressPassport($ocrStrategy);
 
         $text = $progressPassport->processImage($imageName);
