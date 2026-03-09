@@ -27,6 +27,22 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JSON Modal -->
+    <div class="modal fade" id="jsonModal" tabindex="-1" aria-labelledby="jsonModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jsonModalLabel">JSON Response</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <pre id="jsonContent" style="white-space: pre-wrap; word-wrap: break-word;"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function processImage(image) {
             const url = "{{ route('posts.process') }}";
@@ -42,7 +58,9 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    document.getElementById('jsonContent').textContent = JSON.stringify(data, null, 2);
+                    const modal = new bootstrap.Modal(document.getElementById('jsonModal'));
+                    modal.show();
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -50,6 +68,7 @@
                 });
         }
     </script>
+
 </body>
 
 </html>
