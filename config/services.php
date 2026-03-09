@@ -39,4 +39,9 @@ return [
         'key' => env('PIXLAB_API_KEY'),
     ],
 
+    'idanalyzer' => [
+        'key' => env('IDANALYZER_API_KEY'),
+        'region' => env('IDANALYZER_REGION', 'US'),
+    ],
+
 ];
