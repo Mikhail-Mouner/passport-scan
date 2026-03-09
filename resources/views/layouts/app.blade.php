@@ -29,7 +29,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function processImage(image) {
-            fetch('/posts/process', {
+            const url = "{{ route('posts.process') }}";
+            fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

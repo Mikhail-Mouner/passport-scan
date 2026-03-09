@@ -8,8 +8,20 @@ class TesseractOcrStrategy implements OcrStrategy
 {
     public function extractText($image)
     {
-        $path = storage_path('app/public/'.$image);
+        // 1. Build the full path to the image in your storage
+        $path = storage_path('app/public/' . $image);
 
-        return (new TesseractOCR($path))->run();
+        // 2. Initialize the library
+        $tesseract = new TesseractOCR($path);
+
+        // 3. Point directly to the .exe file you just downloaded
+        // (Assuming you used the default installation path)
+        $tesseract->executable('C:\Program Files\Tesseract-OCR\tesseract.exe');
+        try {
+            // 4. Run the OCR
+            return $tesseract->run();
+        } catch (\Exception $e) {
+            return "OCR Error: " . $e->getMessage();
+        }
     }
 }
