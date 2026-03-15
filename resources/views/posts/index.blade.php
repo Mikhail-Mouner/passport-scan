@@ -11,8 +11,8 @@
             <tr>
                 <th>ID</th>
                 <th>Title</th>
-                <th>Image</th>
                 <th>Has Data</th>
+                <th>Image</th>
                 <th>Actions</th>
             </tr>
         </thead>
