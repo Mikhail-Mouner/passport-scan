@@ -44,7 +44,7 @@
     </div>
 
     <script>
-        function processImage(image) {
+        function processImage(id) {
             const url = "{{ route('posts.process') }}";
             fetch(url, {
                     method: 'POST',
@@ -53,7 +53,7 @@
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     },
                     body: JSON.stringify({
-                        image: image
+                        id: id
                     })
                 })
                 .then(response => response.json())
@@ -64,6 +64,12 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    const modal = new bootstrap.Modal(document.getElementById('jsonModal'));
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'alert alert-danger';
+                    errorMessage.textContent = error.message;
+                    document.getElementById('jsonContent').parentNode.insertBefore(errorMessage, document.getElementById('jsonContent'));
+                    modal.show();
                     // alert('Error processing image');
                 });
         }

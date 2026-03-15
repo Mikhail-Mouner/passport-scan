@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Passport\IDAnalyzerOcrStrategy;
+use App\Actions\Passport\ProgressPassport;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class PostController extends Controller
 {
@@ -31,11 +32,19 @@ class PostController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
+            if ($request->input('submit') === 'process') {
+
+                $ocrStrategy = new IDAnalyzerOcrStrategy;
+                $progressPassport = new ProgressPassport($ocrStrategy);
+
+                $result = $progressPassport->processImage($request->file('image'));
+            }
         }
 
         Post::create([
             'title' => $request->title,
             'image' => $imagePath,
+            'data' => $result && ! empty($result['raw_response']) ? $result['raw_response'] : null,
         ]);
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
@@ -84,5 +93,4 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
-
 }

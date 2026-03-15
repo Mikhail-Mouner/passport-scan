@@ -3,6 +3,7 @@
 namespace App\Actions\Passport;
 
 use IDAnalyzer\CoreAPI;
+use Illuminate\Http\UploadedFile;
 
 class IDAnalyzerOcrStrategy implements OcrStrategy
 {
@@ -22,7 +23,13 @@ class IDAnalyzerOcrStrategy implements OcrStrategy
 
     public function extractText($image)
     {
-        $imagePath = storage_path('app/public/'.$image);
+        if (is_string($image)) {
+            $imagePath = storage_path('app/public/'.$image);
+        } elseif ($image instanceof UploadedFile) {
+            $imagePath = $image->getPathname();
+        } else {
+            throw new \Exception('Invalid image input type');
+        }
 
         if (! $image || ! file_exists($imagePath) || ! is_file($imagePath)) {
             throw new \Exception("Image file not found or invalid: $imagePath");

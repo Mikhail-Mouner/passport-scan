@@ -12,6 +12,7 @@
                 <th>ID</th>
                 <th>Title</th>
                 <th>Image</th>
+                <th>Has Data</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <tr>
                     <td>{{ $post->id }}</td>
                     <td>{{ $post->title }}</td>
+                    <td>{{ $post->data ? 'Yes' : 'No'  }}</td>
                     <td>
                         @if ($post->image)
                             <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" width="100">
@@ -29,7 +31,7 @@
                     </td>
                     <td>
                         <button class="btn btn-secondary"
-                            onclick="processImage('{{ $post->image ?? null }}')">Process</button>
+                            onclick="processImage('{{ $post->id ?? null }}')">Process</button>
                         <a href="{{ route('posts.show', $post) }}" class="btn btn-info btn-sm">View</a>
                         <a href="{{ route('posts.edit', $post) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('posts.destroy', $post) }}" method="POST" style="display:inline;">
