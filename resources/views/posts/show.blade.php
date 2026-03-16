@@ -15,5 +15,5 @@
 <x-post-data :data="$post->data" />
 <a href="{{ route('posts.index') }}" class="btn btn-secondary">Back</a>
 <a href="{{ route('posts.edit', $post) }}" class="btn btn-warning">Edit</a>
-<button class="btn btn-secondary" onclick="processImage('{{ $post->id}}')">Process</button>
+<button class="btn btn-secondary" onclick="processImage(event,'{{ $post->id}}')">Process</button>
 @endsection

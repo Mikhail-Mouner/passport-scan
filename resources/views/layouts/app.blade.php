@@ -44,7 +44,12 @@
     </div>
 
     <script>
-        function processImage(id) {
+        function processImage(e, id) {
+            e.target.innerHTML = 'Processing...';
+            e.target.disabled = true;
+            const modal = new bootstrap.Modal(document.getElementById('jsonModal'));
+            document.getElementById('jsonContent').textContent = '';
+            document.getElementById('errorMessage')?.remove();
             const url = "{{ route('posts.process') }}";
             fetch(url, {
                     method: 'POST',
@@ -59,17 +64,19 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('jsonContent').textContent = JSON.stringify(data, null, 2);
-                    const modal = new bootstrap.Modal(document.getElementById('jsonModal'));
                     modal.show();
+                    e.target.innerHTML = 'Done.';
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    const modal = new bootstrap.Modal(document.getElementById('jsonModal'));
                     const errorMessage = document.createElement('div');
                     errorMessage.className = 'alert alert-danger';
+                    errorMessage.id = 'errorMessage';
                     errorMessage.textContent = error.message;
                     document.getElementById('jsonContent').parentNode.insertBefore(errorMessage, document.getElementById('jsonContent'));
                     modal.show();
+                    e.target.innerHTML = 'Try Again.';
+                    e.target.disabled = false;
                     // alert('Error processing image');
                 });
         }
