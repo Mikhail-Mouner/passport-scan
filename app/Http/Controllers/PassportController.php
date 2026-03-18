@@ -8,6 +8,7 @@ use App\Actions\Passport\MindeeOcrStrategy;
 use App\Actions\Passport\NewTesseractOcrStrategy;
 use App\Actions\Passport\PixlabOcrStrategy;
 use App\Actions\Passport\ProgressPassport;
+use App\Actions\Passport\RegulaStrategy;
 use App\Actions\Passport\TesseractOcrStrategy;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class PassportController extends Controller
         $post = Post::findOrFail($id);
         $imageName = $post->image;
 
-        $currentStrategy = 'IDAnalyzerOcrStrategy';
+        $currentStrategy = 'Regula';
 
         $ocrStrategy = match ($currentStrategy) {
             'IDAnalyzerOcrStrategy' => new IDAnalyzerOcrStrategy,
@@ -29,6 +30,7 @@ class PassportController extends Controller
             'MindeeOcrStrategy' => new MindeeOcrStrategy,
             'GoogleVisionOcrStrategy' => new GoogleVisionOcrStrategy,
             'NewTesseractOcrStrategy' => new NewTesseractOcrStrategy,
+            'Regula' => new RegulaStrategy,
             default => throw new \Exception('Invalid OCR strategy selected'),
         };
 
