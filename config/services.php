@@ -43,5 +43,9 @@ return [
         'key' => env('IDANALYZER_API_KEY'),
         'region' => env('IDANALYZER_REGION', 'US'),
     ],
+    'regula' => [
+        'url' => env('REGULA_URL', 'http://localhost:8080'),
+        'key' => env('REGULA_KEY'),
+    ],
 
 ];

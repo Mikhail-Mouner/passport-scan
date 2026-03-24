@@ -93,4 +93,52 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
+    public function upload(Request $request)
+    {
+
+        // 1. استقبال الـ Base64 وتنظيفه
+        $imageData = $request->input('image');
+        $image = str_replace('data:image/jpeg;base64,', '', $imageData);
+        $image = str_replace(' ', '+', $image);
+        $imageBinary = base64_decode($image);
+
+        // 2. إنشاء اسم ملف فريد
+        $imageName = 'scan_' . time() . '.jpg';
+        $imagePath = 'images/' . $imageName;
+
+        // 3. تخزين الملف في الـ Public Disk
+        \Storage::disk('public')->put($imagePath, $imageBinary);
+
+        // 4. تشغيل منطق الـ OCR (نفس الكود بتاعك مع تعديل بسيط)
+        $result = null;
+
+        // محتاجين نبعت الملف للـ OCR. بما إن الـ OCR عندك بيتوقع ملف،
+        // هنستخدم مسار الملف اللي لسه مخزنينه.
+        $fullPath = storage_path('app/public/' . $imagePath);
+
+//        try {
+//            $ocrStrategy = new IDAnalyzerOcrStrategy;
+//            $progressPassport = new ProgressPassport($ocrStrategy);
+//
+//            // ملاحظة: لو الـ processImage محتاج UploadedFile object،
+//            // ممكن نمرر المسار أو نحول الـ binary لملف مؤقت.
+//            $result = $progressPassport->processImage($fullPath);
+//        } catch (\Exception $e) {
+//            \Log::error("OCR Error: " . $e->getMessage());
+//        }
+
+        // 5. حفظ البيانات في الـ Database
+        Post::create([
+            'title' => 'Scanned Document ' . now()->format('Y-m-d H:i'),
+            'image' => $imagePath,
+//            'data' => ($result && !empty($result['raw_response'])) ? $result['raw_response'] : null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Post Scanned successfully',
+            'redirect_url' => route('posts.index')
+        ]);
+    }
+
 }

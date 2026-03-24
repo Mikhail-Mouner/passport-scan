@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Create Post')
+@section('title', 'Create Passport')
 
 @section('content')
-<h1>Create Post</h1>
+<h1>Create Passport</h1>
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
