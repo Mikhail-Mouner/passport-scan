@@ -42,7 +42,7 @@ window.scan = async function () {
             authParams: {
                 checkLiveness: false
             },
-            alreadyCropped: true
+            alreadyCropped: false
         },
         List: [
             {
@@ -58,11 +58,17 @@ window.scan = async function () {
     console.log(result);
 
     // ✅ extract data
-    const fullName = result.text?.getField(SURNAME_AND_GIVEN_NAMES)?.value;
-    const docNumber = result.text?.getField(DOCUMENT_NUMBER)?.value;
-    const birthDate = result.text?.getField(DATE_OF_BIRTH)?.value;
+    const getField = (field) => result.text?.getField(field)?.value ?? 'unknown';
 
-    alert(`Name: ${fullName}\nPassport: ${docNumber}`);
+    const fullName =
+        getField(SURNAME_AND_GIVEN_NAMES) ||
+        getField(TextFieldType.FULL_NAME) ||
+        getField(TextFieldType.NAME);
+
+    const docNumber = getField(DOCUMENT_NUMBER);
+    const birthDate = getField(DATE_OF_BIRTH);
+
+    alert(`Name: ${fullName}\nPassport: ${docNumber} \nDate of Birth: ${birthDate}`);
 
     // 📤 send to Laravel
 };
