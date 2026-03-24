@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Show Post')
+@section('title', 'Show Passport')
 
 @section('content')
 <h1>{{ $post->title }}</h1>

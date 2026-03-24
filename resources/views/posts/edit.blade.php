@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Post')
+@section('title', 'Edit Passport')
 
 @section('content')
-<h1>Edit Post</h1>
+<h1>Edit Passport</h1>
 <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')

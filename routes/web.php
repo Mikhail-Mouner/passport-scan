@@ -9,5 +9,8 @@ Route::get('/', function () {
 });
 
 Route::resource('posts', PostController::class);
+Route::get('/scan', function () {
+    return view('scan');
+})->name('scan');
 
 Route::post('/posts/process', [PassportController::class, 'process'])->name('posts.process');

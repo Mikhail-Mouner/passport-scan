@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Posts')
+@section('title', 'Passports')
 
 @section('content')
-    <h1>Posts</h1>
-    <a href="{{ route('posts.create') }}" class="btn btn-primary mb-3">Create New Post</a>
+    <h1>Passports</h1>
+    <a href="{{ route('posts.create') }}" class="btn btn-primary mb-3">Create New Passport</a>
+    <a href="{{ route('scan') }}" class="btn btn-primary mb-3">Scan</a>
 
     <table class="table table-striped">
         <thead>
