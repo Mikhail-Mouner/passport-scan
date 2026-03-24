@@ -9,5 +9,5 @@ Route::get('/', function () {
 });
 
 Route::resource('posts', PostController::class);
-
+Route::post('/upload-scanned-image', [PostController::class, 'upload']);
 Route::post('/posts/process', [PassportController::class, 'process'])->name('posts.process');

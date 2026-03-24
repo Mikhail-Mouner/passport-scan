@@ -24,7 +24,10 @@
         <input type="file" class="form-control" id="image" name="image" accept="image/*">
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
+    <button type="button" class="btn btn-primary" onclick="scanToLaravel();">Scan</button>
     <button type="submit" name="submit" value="process" class="btn btn-primary">Create & Process</button>
     <a href="{{ route('posts.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
+
+<div id="images"></div>
 @endsection
